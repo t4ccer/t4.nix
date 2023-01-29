@@ -56,23 +56,21 @@ in {
         };
         config = {
           packages = let
-            mkSingle = stdenv: args: let
-              name = args.name or "${args.pname or args.name}";
-            in {
-              name = "${stdenv}-${name}";
+            mkSingle = name: args: stdenv: {
+              name = "${name}-${stdenv}";
               value = pkgs.${stdenv}.mkDerivation args;
             };
 
-            mkEntry = {
+            mkEntry = name: {
               stdenvs,
               mkDerivationAttrs,
               ...
             }:
-              map (stdenv: mkSingle stdenv mkDerivationAttrs) stdenvs;
+              map (mkSingle name mkDerivationAttrs) stdenvs;
           in
             builtins.listToAttrs
             (builtins.concatLists
-              (lib.attrsets.mapAttrsToList (_: mkEntry) config.stdenvMatrix));
+              (lib.attrsets.mapAttrsToList mkEntry config.stdenvMatrix));
         };
       });
   };
