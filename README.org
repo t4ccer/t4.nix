@@ -2,6 +2,18 @@
 
 Opinionated nix utilities
 
+** Modules
+
+Read =flake.nix= for example use.
+
+*** =formatCheck=
+
+Module for checking code formatting.
+
+*** =stdenvMatrix=
+
+Run your build with multiple standard environments without boilerplate
+
 ** License
 
 Copyright (C) 2023 Tomasz Maciosowski (t4ccer)
