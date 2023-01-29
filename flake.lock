@@ -72,6 +72,18 @@
         "type": "github"
       }
     },
+    "hello": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-1kJjhtlsAkpNB7f6tZEs+dbKd8z7KoNHyDHEJ0tmhnc=",
+        "type": "tarball",
+        "url": "https://ftp.gnu.org/gnu/hello/hello-2.12.1.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://ftp.gnu.org/gnu/hello/hello-2.12.1.tar.gz"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1675023846,
@@ -116,6 +128,7 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "hello": "hello",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks-nix": "pre-commit-hooks-nix"
       }

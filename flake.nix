@@ -11,6 +11,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
+    hello = {
+      url = "https://ftp.gnu.org/gnu/hello/hello-2.12.1.tar.gz";
+      flake = false;
+    };
   };
   outputs = inputs @ {
     self,
@@ -24,6 +28,7 @@
         # If you're using this repo as a flake input,
         # instead use: inputs.t4-nix.formatCheck
         ./format-check.nix
+        ./stdenv-matrix.nix
       ];
       systems =
         if builtins.hasAttr "currentSystem" builtins
@@ -31,6 +36,7 @@
         else inputs.nixpkgs.lib.systems.flakeExposed;
       flake = {
         formatCheck = ./format-check.nix;
+        stdenvMatrix = ./stdenv-matrix.nix;
       };
       perSystem = {
         config,
@@ -55,6 +61,17 @@
           ];
         };
         formatCheck.enable = true;
+        stdenvMatrix = {
+          hello = {
+            stdenvs = ["stdenv" "clangStdenv"];
+            mkDerivationAttrs = {
+              pname = "hello";
+              version = "2.12.1";
+              src = inputs.hello.outPath;
+              doCheck = true;
+            };
+          };
+        };
         formatter = pkgs.alejandra;
       };
     };
