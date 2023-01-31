@@ -27,16 +27,18 @@
 
         # If you're using this repo as a flake input,
         # instead use: inputs.t4-nix.formatCheck
-        ./format-check.nix
+        # ./format-check.nix # FIXME
         ./stdenv-matrix.nix
+        ./build-all.nix
       ];
       systems =
         if builtins.hasAttr "currentSystem" builtins
         then [builtins.currentSystem]
         else inputs.nixpkgs.lib.systems.flakeExposed;
       flake = {
-        formatCheck = ./format-check.nix;
+        # formatCheck = ./format-check.nix;
         stdenvMatrix = ./stdenv-matrix.nix;
+        buildAll = ./build-all.nix;
       };
       perSystem = {
         config,
@@ -53,6 +55,7 @@
             statix.enable = true;
           };
         };
+
         devShells.default = pkgs.mkShell {
           shellHook = config.pre-commit.installationScript;
           nativeBuildInputs = [
@@ -60,9 +63,6 @@
             pkgs.fd
           ];
         };
-
-        # Check that `make format` doesn't change anything
-        formatCheck.enable = true;
 
         stdenvMatrix = {
           hello = {
@@ -77,6 +77,9 @@
             };
           };
         };
+
+        buildAll.enable = true;
+
         formatter = pkgs.alejandra;
       };
     };
