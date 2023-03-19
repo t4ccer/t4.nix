@@ -45,6 +45,10 @@
           path = ./templates/general;
           description = "General template";
         };
+        haskell-stack = {
+          path = ./templates/haskell-stack;
+          description = "Haskell + Stack template";
+        };
       };
       perSystem = {
         config,
