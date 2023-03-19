@@ -40,6 +40,12 @@
         stdenvMatrix = ./stdenv-matrix.nix;
         buildAll = ./build-all.nix;
       };
+      flake.templates = {
+        general = {
+          path = ./templates/general;
+          description = "General template";
+        };
+      };
       perSystem = {
         config,
         self',
