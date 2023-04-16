@@ -1,0 +1,10 @@
+* Yew + Nix template
+
+Adapted [[https://github.com/yewstack/yew-trunk-minimal-template][yewstack/yew-trunk-minimal-template]] with [[https://nixos.org][Nix]] provided tooling.
+
+** Usage
+
+#+begin_src bash
+  nix develop
+  trunk serve
+#+end_src

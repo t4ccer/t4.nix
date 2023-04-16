@@ -49,6 +49,10 @@
           path = ./templates/haskell-stack;
           description = "Haskell + Stack template";
         };
+        rust-yew = {
+          path = ./templates/rust-yew;
+          description = "Rust Yew WASM template";
+        };
       };
       perSystem = {
         config,

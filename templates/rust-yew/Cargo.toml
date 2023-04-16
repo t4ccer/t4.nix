@@ -1,0 +1,13 @@
+[package]
+name = "rust-yew-template"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tomasz Maciosowski <t4ccer@gmail.com>"]
+license-file = "LICENSE"
+readme = "README.org"
+repository = "https://github.com/t4ccer/t4.nix"
+keywords = ["yew", "trunk"]
+categories = ["gui", "wasm", "web-programming"]
+
+[dependencies]
+yew = { version="0.20", features=["csr"] }
