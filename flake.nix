@@ -53,6 +53,10 @@
           path = ./templates/rust-yew;
           description = "Rust Yew WASM template";
         };
+        rust = {
+          path = ./templates/rust;
+          description = "Rust template";
+        };
       };
       perSystem = {
         config,

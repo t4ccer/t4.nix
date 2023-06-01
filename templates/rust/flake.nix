@@ -1,7 +1,7 @@
 {
-  description = "general-template";
+  description = "rust-yew-template";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.follows = "rust-overlay/nixpkgs";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -11,12 +11,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+    };
   };
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    ...
-  }:
+  outputs = inputs @ {self, ...}:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.pre-commit-hooks-nix.flakeModule
@@ -36,11 +35,17 @@
         system,
         ...
       }: {
+        _module.args.pkgs = import self.inputs.nixpkgs {
+          inherit system;
+          overlays = [inputs.rust-overlay.overlays.rust-overlay];
+        };
+
         pre-commit.settings = {
           src = ./.;
           hooks = {
             alejandra.enable = true;
             statix.enable = true;
+            rustfmt.enable = true;
           };
         };
 
@@ -49,9 +54,18 @@
           nativeBuildInputs = [
             pkgs.alejandra
             pkgs.fd
+
+            # NOTE: Don't use pkgs.sass, it's a ruby incompatible version
+            pkgs.nodePackages.sass
+            pkgs.trunk
+            pkgs.wasm-bindgen-cli
+            (pkgs.rust-bin.fromRustupToolchain {
+              channel = "stable";
+              components = ["rust-analyzer" "rust-src" "rustfmt" "rustc" "cargo"];
+              targets = ["wasm32-unknown-unknown"];
+            })
           ];
         };
-
         formatter = pkgs.alejandra;
       };
     };
